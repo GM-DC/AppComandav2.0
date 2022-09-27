@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_main_panel"
+    app:startDestination="@id/mainPanelFrag">
+
+    <fragment
+        android:id="@+id/mainPanelFrag"
+        android:name="com.example.appcomandav20.view.ui.PanelPrincipal.MainPanelFrag"
+        android:label="frag_main_panel"
+        tools:layout="@layout/frag_main_panel" />
+</navigation>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/AppComanda" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/AppComandaAntiguo/AppComandaRestrablecer" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/AppComandaRestrablecer" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/AppComercial" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/AppConsultaCuota" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/AppPrueba/Clean Arquitectu" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/AppPrueba/Clean Arquitectu/RickAndMortyApp" vcs="Git" />
+  </component>
+</project>
