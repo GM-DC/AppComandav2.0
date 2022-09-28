@@ -26,20 +26,22 @@ class LoginUserRepositoryImpl @Inject constructor(
             api.postLoginComanda(loginMozo = login.toLoginUserDTO())
         }catch (e: HttpException) {
             return NetworkResult.Error(
-                message = "Huy! Algo salió mal",
+                message = "Huy! Algo salió mal // Code: ${e.code()}",
                 data = null
             )
         }catch (e: IOException) {
             return NetworkResult.Error(
-                message = "No se pudo llegar al servidor, verifique su conexión a Internet",
+                message = "No se pudo llegar al servidor, verifique su conexión a Internet // ${e.message}",
                 data = null
             )
         }catch (e: Exception) {
             return NetworkResult.Error(
-                message = "Un error desconocido ocurrió",
+                message = "Un error desconocido ocurrió = ${e.message}",
                 data = null
             )
         }
+
+
         return NetworkResult.Success(data = response)
     }
 }

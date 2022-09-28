@@ -15,7 +15,8 @@
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_exit_anim" />
+            app:popExitAnim="@anim/nav_default_exit_anim"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/passCodeUsuarioFrag"
@@ -26,5 +27,15 @@
             android:name="nameMozo"
             app:argType="string"
             android:defaultValue="No Name" />
+        <action
+            android:id="@+id/next_activity"
+            app:destination="@id/mainPanel"
+            app:popUpTo="@id/listUsuarioFrag2"
+            app:popUpToInclusive="false" />
     </fragment>
+    <activity
+        android:id="@+id/mainPanel"
+        android:name="com.example.appcomandav20.view.ui.PanelPrincipal.MainPanel"
+        android:label="acty_main_panel"
+        tools:layout="@layout/acty_main_panel" />
 </navigation>

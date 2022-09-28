@@ -1,9 +1,7 @@
 package com.example.rickandmorty.di
 
-import com.example.appcomandav20.data.source.remote.UserLoginApi
-import com.example.appcomandav20.data.source.remote.UsuarioApi
+import com.example.appcomandav20.data.source.remote.*
 import com.example.appcomandav20.util.BASE_URL
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -49,6 +47,30 @@ object RemoteModule {
     @Singleton
     fun provideLoginUserApiClient(retrofit: Retrofit): UserLoginApi {
         return retrofit.create(UserLoginApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideZoneApiClient(retrofit: Retrofit): ZoneApi {
+        return retrofit.create(ZoneApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTableApiClient(retrofit: Retrofit): TableApi {
+        return retrofit.create(TableApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCategoryApiClient(retrofit: Retrofit): CategoryApi {
+        return retrofit.create(CategoryApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDishApiClient(retrofit: Retrofit): DishApi {
+        return retrofit.create(DishApi::class.java)
     }
 
 }
