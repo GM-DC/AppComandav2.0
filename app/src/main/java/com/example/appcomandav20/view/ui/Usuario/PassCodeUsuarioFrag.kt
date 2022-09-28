@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.example.appcomandav20.R
 import com.example.appcomandav20.databinding.FragPasscodeUsuarioBinding
 import com.example.appcomandav20.domain.model.LoginUserResponseModel
 import com.example.appcomandav20.view.ui.PanelPrincipal.MainPanel
@@ -39,10 +41,8 @@ class PassCodeUsuarioFrag : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initNameWaiter()
         eventsHanlds()
-        registrarDatos()
         messageState()
     }
 
@@ -50,8 +50,9 @@ class PassCodeUsuarioFrag : Fragment() {
         viewModel.loginResult.observe(viewLifecycleOwner){ it ->
             datosLoginUser.add(it)
             if (datosLoginUser.isNotEmpty()){
-                val intent = Intent(activity, MainPanel::class.java)
-                startActivity(intent)
+                datosLoginUser.clear()
+                binding.txtCodigo.text = ""
+                findNavController().navigate(R.id.next_activity)
             }
         }
     }
@@ -60,6 +61,7 @@ class PassCodeUsuarioFrag : Fragment() {
         val usuario = PassCodeUsuarioFragArgs.fromBundle(requireArguments()).nameMozo
         val password = binding.txtCodigo.text.toString()
         viewModel.loginUser(usuario = usuario, passwords = password)
+        registrarDatos()
     }
 
     private fun initNameWaiter() {

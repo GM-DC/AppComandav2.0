@@ -2,7 +2,6 @@ package com.example.appcomandav20.view.ui.viewmodels
 
 import androidx.lifecycle.*
 import com.example.appcomandav20.data.NetworkResult
-import com.example.appcomandav20.data.source.remote.response.LoginUserResponse
 import com.example.appcomandav20.data.source.remote.response.toLoginUserResponseModel
 import com.example.appcomandav20.domain.model.LoginUserModel
 import com.example.appcomandav20.domain.model.LoginUserResponseModel
@@ -77,4 +76,7 @@ class RecyclerUsuarioViewModel @Inject constructor(
         }
     }
 
+    override fun onCleared() {
+        super.onCleared()
+    }
 }

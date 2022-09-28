@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/buhor/Documents/Kotlin/AppComanda v2.0/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2595" />
+        <entry key="..\:/Users/buhor/Documents/Kotlin/AppComanda v2.0/app/src/main/res/drawable-v24/item_background.xml" value="0.296" />
+        <entry key="..\:/Users/buhor/Documents/Kotlin/AppComanda v2.0/app/src/main/res/drawable-v24/item_select_background.xml" value="0.1975" />
         <entry key="..\:/Users/buhor/Documents/Kotlin/AppComanda v2.0/app/src/main/res/drawable/effect_clic.xml" value="0.2595" />
         <entry key="..\:/Users/buhor/Documents/Kotlin/AppComanda v2.0/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2595" />
         <entry key="..\:/Users/buhor/Documents/Kotlin/AppComanda v2.0/app/src/main/res/drawable/icon_usuario.xml" value="0.2595" />
@@ -12,7 +14,11 @@
         <entry key="..\:/Users/buhor/Documents/Kotlin/AppComanda v2.0/app/src/main/res/layout/frag_list_usuario.xml" value="0.24166666666666667" />
         <entry key="..\:/Users/buhor/Documents/Kotlin/AppComanda v2.0/app/src/main/res/layout/frag_main_panel.xml" value="0.17447916666666666" />
         <entry key="..\:/Users/buhor/Documents/Kotlin/AppComanda v2.0/app/src/main/res/layout/frag_passcode_usuario.xml" value="0.24166666666666667" />
+        <entry key="..\:/Users/buhor/Documents/Kotlin/AppComanda v2.0/app/src/main/res/layout/item_category.xml" value="0.371875" />
+        <entry key="..\:/Users/buhor/Documents/Kotlin/AppComanda v2.0/app/src/main/res/layout/item_dish.xml" value="0.2942708333333333" />
+        <entry key="..\:/Users/buhor/Documents/Kotlin/AppComanda v2.0/app/src/main/res/layout/item_table.xml" value="0.371875" />
         <entry key="..\:/Users/buhor/Documents/Kotlin/AppComanda v2.0/app/src/main/res/layout/item_usuario.xml" value="0.5" />
+        <entry key="..\:/Users/buhor/Documents/Kotlin/AppComanda v2.0/app/src/main/res/layout/item_zona.xml" value="0.18958333333333333" />
       </map>
     </option>
   </component>

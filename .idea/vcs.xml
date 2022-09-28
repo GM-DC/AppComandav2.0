@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/AppComanda" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/AppComandaAntiguo/AppComandaRestrablecer" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/AppComandaRestrablecer" vcs="Git" />
