@@ -1,4 +1,4 @@
-package com.example.appcomandav20.view.adapter
+package com.example.appcomandav20.view.ui.PanelPrincipal.adapter
 
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appcomandav20.R
 import com.example.appcomandav20.domain.model.DishModel
-import kotlin.collections.ArrayList
 
 class DishAdapter(var data: MutableList<DishModel>, private val onClickListener: (DishModel) -> Unit): RecyclerView.Adapter<DishAdapter.holderPlato>() {
 

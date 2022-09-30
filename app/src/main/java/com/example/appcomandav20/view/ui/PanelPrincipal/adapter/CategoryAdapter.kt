@@ -1,6 +1,5 @@
-package com.example.appcomandav20.view.adapter
+package com.example.appcomandav20.view.ui.PanelPrincipal.adapter
 
-import android.graphics.Color
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +9,6 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appcomandav20.R
 import com.example.appcomandav20.domain.model.CategoryModel
-import com.example.appcomandav20.domain.model.TableModel
-import kotlin.random.Random.Default.nextFloat
 
 class CategoryAdapter(private val data: MutableList<CategoryModel>, private val onClickListener: (CategoryModel) -> Unit): RecyclerView.Adapter<CategoryAdapter.holderCategoria>() {
 

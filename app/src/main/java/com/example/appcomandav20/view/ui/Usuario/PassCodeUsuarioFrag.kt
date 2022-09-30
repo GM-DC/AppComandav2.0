@@ -1,6 +1,5 @@
 package com.example.appcomandav20.view.ui.Usuario
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,8 +11,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.appcomandav20.R
 import com.example.appcomandav20.databinding.FragPasscodeUsuarioBinding
 import com.example.appcomandav20.domain.model.LoginUserResponseModel
-import com.example.appcomandav20.view.ui.PanelPrincipal.MainPanel
-import com.example.appcomandav20.view.ui.viewmodels.RecyclerUsuarioViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

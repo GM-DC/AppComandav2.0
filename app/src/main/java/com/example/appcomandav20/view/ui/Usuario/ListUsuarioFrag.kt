@@ -7,19 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavDirections
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.appcomandav20.R
 import com.example.appcomandav20.databinding.FragListUsuarioBinding
 import com.example.appcomandav20.domain.model.UsuarioDC
-import com.example.appcomandav20.view.adapter.UsuarioAdapter
-import com.example.appcomandav20.view.ui.viewmodels.RecyclerUsuarioViewModel
+import com.example.appcomandav20.view.ui.Usuario.adapter.UsuarioAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

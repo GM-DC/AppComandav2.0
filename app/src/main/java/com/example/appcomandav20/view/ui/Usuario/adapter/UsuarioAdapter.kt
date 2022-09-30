@@ -1,4 +1,4 @@
-package com.example.appcomandav20.view.adapter
+package com.example.appcomandav20.view.ui.Usuario.adapter
 
 import android.graphics.Color
 import android.view.LayoutInflater

@@ -1,4 +1,4 @@
-package com.example.appcomandav20.view.ui.viewmodels
+package com.example.appcomandav20.view.ui.Usuario
 
 import androidx.lifecycle.*
 import com.example.appcomandav20.data.NetworkResult
@@ -7,6 +7,8 @@ import com.example.appcomandav20.domain.model.LoginUserModel
 import com.example.appcomandav20.domain.model.LoginUserResponseModel
 import com.example.appcomandav20.domain.model.UsuarioDC
 import com.example.appcomandav20.domain.use_case.PostLoginUserUseCase
+import com.example.appcomandav20.domain.use_case.PostSendOrdersUseCase
+import com.example.apppedido.domain.Model.SendOrdersModel
 import com.example.rickandmorty.domain.use_case.GetUsuarioUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -76,7 +78,5 @@ class RecyclerUsuarioViewModel @Inject constructor(
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-    }
+
 }

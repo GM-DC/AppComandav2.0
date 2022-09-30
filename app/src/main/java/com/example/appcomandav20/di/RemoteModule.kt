@@ -73,4 +73,16 @@ object RemoteModule {
         return retrofit.create(DishApi::class.java)
     }
 
+    @Provides
+    @Singleton
+    fun provideSendOrderApiClient(retrofit: Retrofit): SendOrdersApi {
+        return retrofit.create(SendOrdersApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideOrdersFulfilledApiClient(retrofit: Retrofit): OrdersFulfilledApi {
+        return retrofit.create(OrdersFulfilledApi::class.java)
+    }
+
 }

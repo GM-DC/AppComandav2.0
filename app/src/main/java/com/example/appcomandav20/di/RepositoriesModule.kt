@@ -28,5 +28,11 @@ abstract class RepositoriesModule {
     @Binds
     abstract fun bindDishRepository(impl: DishRepositoryImpl): DishRepository
 
+    @Binds
+    abstract fun bindSendOrderRepository(impl: SendOrdersRepositoryImpl): SendOrdersRepository
+
+    @Binds
+    abstract fun bindOrdersFullfilledRepository(impl: ListOrdersFulfilledRepositoryImpl): ListOrdersFulfilledRepository
+
 
 }

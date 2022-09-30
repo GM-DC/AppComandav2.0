@@ -1,15 +1,13 @@
-package com.example.appcomandav20.view.adapter
+package com.example.appcomandav20.view.ui.PanelPrincipal.adapter
 
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appcomandav20.R
 import com.example.appcomandav20.domain.model.TableModel
-import com.example.appcomandav20.domain.model.ZoneModel
 
 class TableAdapter (private val data: MutableList<TableModel>, private val onClickListener: (TableModel) -> Unit): RecyclerView.Adapter<TableAdapter.holderMesa>() {
 
