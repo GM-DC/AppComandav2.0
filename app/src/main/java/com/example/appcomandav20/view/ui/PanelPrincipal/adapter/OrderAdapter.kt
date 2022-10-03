@@ -1,13 +1,16 @@
 package com.example.appcomandav20.view.ui.PanelPrincipal.adapter
+
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appcomandav20.R
-import com.example.appcomandav20.domain.model.DishModel
 import com.example.appcomandav20.domain.model.ListOrdersModel
+import com.google.android.material.snackbar.Snackbar
+
 
 class OrderAdapter(private val data: MutableList<ListOrdersModel>, private val onClickListener: (ListOrdersModel) -> Unit): RecyclerView.Adapter<OrderAdapter.holderPedido>() {
 
@@ -55,7 +58,6 @@ class OrderAdapter(private val data: MutableList<ListOrdersModel>, private val o
             val tv_nota = view.findViewById<TextView>(R.id.tv_nota)
 
             val precio = view.findViewById<TextView>(R.id.precio)
-            val cantidad = view.findViewById<TextView>(R.id.cantidad)
             val total = view.findViewById<TextView>(R.id.total)
 
 
@@ -65,7 +67,6 @@ class OrderAdapter(private val data: MutableList<ListOrdersModel>, private val o
                 tv_precioTotal.setTextColor(Color.parseColor("#11468F"))
                 tv_cantidad.setTextColor(Color.parseColor("#11468F"))
                 precio.setTextColor(Color.parseColor("#11468F"))
-                cantidad.setTextColor(Color.parseColor("#11468F"))
                 total.setTextColor(Color.parseColor("#11468F"))
                 tv_nota.setTextColor(Color.parseColor("#11468F"))
             }else{
@@ -74,7 +75,6 @@ class OrderAdapter(private val data: MutableList<ListOrdersModel>, private val o
                 tv_precioTotal.setTextColor(Color.parseColor("#DA1212"))
                 tv_cantidad.setTextColor(Color.parseColor("#DA1212"))
                 precio.setTextColor(Color.parseColor("#DA1212"))
-                cantidad.setTextColor(Color.parseColor("#DA1212"))
                 total.setTextColor(Color.parseColor("#DA1212"))
                 tv_nota.setTextColor(Color.parseColor("#DA1212"))
             }
@@ -104,6 +104,13 @@ class OrderAdapter(private val data: MutableList<ListOrdersModel>, private val o
         data.addAll(list)
         notifyDataSetChanged()
     }
+
+    fun setItem(item: ListOrdersModel) {
+        data.add(item)
+        notifyDataSetChanged()
+    }
+
+
 
 }
 

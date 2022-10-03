@@ -82,14 +82,16 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_pedido"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="270dp"
             android:layout_margin="2dp"/>
 
         <TextView
             android:id="@+id/bt_enviarComanda"
             android:layout_width="100dp"
             android:layout_height="25dp"
+            android:layout_gravity="center"
             android:gravity="center"
+            android:textAlignment="center"
             android:text="Enviar"
             />
 

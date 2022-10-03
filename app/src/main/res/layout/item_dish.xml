@@ -2,49 +2,45 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="150dp"
+    android:layout_width="120dp"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:animateLayoutChanges="true"
-    app:cardCornerRadius="8dp"
+    app:cardCornerRadius="4dp"
     app:cardElevation="1dp"
     app:cardUseCompatPadding="true"
     android:id="@+id/cv_plato">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:background="@drawable/effect_clic">
-
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="@drawable/effect_clic">
 
             <TextView
                 android:id="@+id/tx_plato"
-                android:layout_width="match_parent"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:layout_margin="1dp"
-                android:textSize="15sp"
-                android:gravity="center_vertical"
-                tools:text="Salchipapa"
-                android:textStyle="bold"/>
+                android:textSize="12sp"
+                android:textStyle="bold"
+                tools:text="Salchipapa" />
 
             <TextView
-                android:layout_gravity="bottom"
                 android:id="@+id/tx_platoPrecio"
-                android:layout_width="match_parent"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:layout_margin="1dp"
-                android:textSize="15sp"
-                android:gravity="center_vertical"
-                tools:text="S/.25"
-                android:textStyle="bold"/>
+                android:textSize="12sp"
+                android:textStyle="bold"
+                tools:text="S/.25" />
 
         </LinearLayout>
 
-    </LinearLayout>
 
 </androidx.cardview.widget.CardView>

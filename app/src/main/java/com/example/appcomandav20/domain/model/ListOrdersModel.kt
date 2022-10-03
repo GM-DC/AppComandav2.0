@@ -12,5 +12,5 @@ data class ListOrdersModel(
     var camanda:String,
     val igv: Double,
     val psigv: Double,
-    val flag_color:Int
+    val flag_color:Int,
 )

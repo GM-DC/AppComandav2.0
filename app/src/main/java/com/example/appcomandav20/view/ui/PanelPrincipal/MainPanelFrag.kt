@@ -7,15 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.appcomandav20.R
 import com.example.appcomandav20.databinding.FragMainPanelBinding
 import com.example.appcomandav20.domain.model.*
+import com.example.appcomandav20.util.utils
 import com.example.appcomandav20.view.ui.PanelPrincipal.adapter.*
 import com.example.apppedido.domain.Model.DetalleModel
 import com.example.apppedido.domain.Model.SendOrdersModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.time.LocalDateTime
 
 
 @AndroidEntryPoint
@@ -68,6 +70,7 @@ class MainPanelFrag : Fragment() {
         getListDish()
         getListOrders()
         eventsHandlers()
+        enableSwipeToDelete()
     }
 
     private fun eventsHandlers() {
@@ -239,7 +242,7 @@ class MainPanelFrag : Fragment() {
         binding.rvCategoria.adapter = categoryAdapter
     }
     private fun initDishRecyclerview() {
-        binding.rvPlatillo.layoutManager = GridLayoutManager(activity,2, RecyclerView.HORIZONTAL,false)
+        binding.rvPlatillo.layoutManager = GridLayoutManager(activity,3, RecyclerView.VERTICAL,false)
         dishAdapter = DishAdapter(listDish) { dataclassDish -> onItemDatosDish(dataclassDish) }
         binding.rvPlatillo.adapter = dishAdapter
     }
@@ -270,7 +273,85 @@ class MainPanelFrag : Fragment() {
     }
 
     private fun onItemDatosDish(dataclassDish: DishModel) {
+        fun setAddDish(){
+            val searchcoincidence = searchCoincidence(dataclassDish.iD_PRODUCTO)
+            val action = searchcoincidence[0]
+            val pos = searchcoincidence[1]
+            if (action == 0) {
+                listOrders.add(
+                    ListOrdersModel(
+                        cantidad= 1,
+                        namePlato= dataclassDish.nombre,
+                        categoria= dataclassDish.codigo,
+                        precio= dataclassDish.preciO_VENTA,
+                        precioTotal= dataclassDish.preciO_VENTA,
+                        observacion= "",
+                        estadoPedido= "PENDIENTE",
+                        idProducto= dataclassDish.iD_PRODUCTO,
+                        camanda= dataclassDish.comanda,
+                        igv= utils().priceIGV(dataclassDish.preciO_VENTA),
+                        psigv= utils().priceSubTotal(dataclassDish.preciO_VENTA),
+                        flag_color= 0,
+                    )
+                )
+            }else {
+                val cantidad = listOrders[pos].cantidad + 1
+                val precioTotal = listOrders[pos].precio * cantidad
+                listOrders[pos] =
+                    ListOrdersModel(
+                        cantidad= cantidad,
+                        namePlato= listOrders[pos].namePlato,
+                        categoria= listOrders[pos].categoria,
+                        precio= listOrders[pos].precio,
+                        precioTotal= precioTotal,
+                        observacion= listOrders[pos].observacion,
+                        estadoPedido= "PENDIENTE",
+                        idProducto= listOrders[pos].idProducto,
+                        camanda= listOrders[pos].camanda,
+                        igv= utils().priceIGV(listOrders[pos].precio),
+                        psigv= utils().priceSubTotal(listOrders[pos].precio),
+                        flag_color= 0,
+                    )
+            }
+            orderAdapter.notifyDataSetChanged()
+        }
+        setAddDish()
+    }
 
+    private fun enableSwipeToDelete() {
+        val itemswipe = object : ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+            override fun onMove(recyclerView: RecyclerView,viewHolder: RecyclerView.ViewHolder,target: RecyclerView.ViewHolder): Boolean {
+                return false
+            }
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, i: Int) {
+                viewHolder.itemView.setBackgroundResource(R.drawable.item_select_background)
+                if (listOrders[viewHolder.bindingAdapterPosition].estadoPedido == "PENDIENTE"){
+                    listOrders.removeAt(viewHolder.bindingAdapterPosition)
+                }
+                orderAdapter.notifyDataSetChanged()
+            }
+        }
+        val itemTouchhelper = ItemTouchHelper(itemswipe)
+        itemTouchhelper.attachToRecyclerView(binding.rvPedido)
+    }
+
+    private fun searchCoincidence(idProducto:Int): List<Int> {
+        //-------------Evalua POSICION Y ACCION DE AGREGAR-------------------
+        var action = 0
+        var pos = -1
+
+        for (i in listOrders.indices) {
+            if (listOrders[i].idProducto == idProducto) {
+                action += 1
+            }
+            if (action == 1) {
+                pos = i
+                println("posicion: $pos")
+                break
+            }
+        }
+
+        return listOf(action, pos)
     }
 
 }
