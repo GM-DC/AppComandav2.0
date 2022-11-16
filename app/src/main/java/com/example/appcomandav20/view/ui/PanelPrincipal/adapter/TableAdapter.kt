@@ -9,7 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.appcomandav20.R
 import com.example.appcomandav20.domain.model.TableModel
 
-class TableAdapter (private val data: MutableList<TableModel>, private val onClickListener: (TableModel) -> Unit): RecyclerView.Adapter<TableAdapter.holderMesa>() {
+class TableAdapter (
+    private val data: MutableList<TableModel>,
+    private val onClickListener: (TableModel) -> Unit)
+    : RecyclerView.Adapter<TableAdapter.holderMesa>() {
 
     var selectedPosition = -1
 
@@ -42,15 +45,26 @@ class TableAdapter (private val data: MutableList<TableModel>, private val onCli
     class holderMesa(private val view: View): RecyclerView.ViewHolder(view){
         fun render (data: TableModel, onClickListener: (TableModel) -> Unit, position: Int){
             val tx_mesa = view.findViewById<TextView>(R.id.tx_mesa)
+            val tx_name = view.findViewById<TextView>(R.id.tx_name)
 
-            println(data.estadoTrans)
-
-            if (data.estadoTrans == "L" && data.idPedido != ""){
+            if (data.estadoTrans == "L" && data.idPedido.isNullOrEmpty()){
+                // Libre
                 tx_mesa.text = "Mesa ${data.idMesa}"
+                tx_name.text = data.NombreMozo
                 tx_mesa.setTextColor(Color.parseColor("#0E83C9"))
-            }else{
+                tx_name.setTextColor(Color.parseColor("#0E83C9"))
+            }else if (data.estadoTrans == "O" && !data.idPedido.isNullOrEmpty()){
+                // ocupado
                 tx_mesa.text = "Mesa ${data.idMesa}"
+                tx_name.text = data.NombreMozo
                 tx_mesa.setTextColor(Color.parseColor("#D50000"))
+                tx_name.setTextColor(Color.parseColor("#D50000"))
+            }else{
+                // ocupado
+                tx_mesa.text = "Mesa ${data.idMesa}"
+                tx_name.text = data.NombreMozo
+                tx_mesa.setTextColor(Color.parseColor("#FF5722"))
+                tx_name.setTextColor(Color.parseColor("#FF5722"))
             }
 
         }

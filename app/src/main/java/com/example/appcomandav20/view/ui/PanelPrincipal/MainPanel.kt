@@ -9,7 +9,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainPanel : AppCompatActivity() {
     private lateinit var binding : ActyMainPanelBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActyMainPanelBinding.inflate(layoutInflater)

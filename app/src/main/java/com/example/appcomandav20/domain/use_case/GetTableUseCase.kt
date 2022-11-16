@@ -8,12 +8,20 @@ import com.example.appcomandav20.domain.repositories.UsuarioRepository
 import kotlinx.coroutines.flow.Flow
 import java.util.logging.Filter
 import javax.inject.Inject
+import javax.inject.Singleton
+
 
 class GetTableUseCase @Inject constructor(
     private val tablesRepository : TablesRepository
 ) {
 
     operator fun invoke(filter: String): Flow<NetworkResult<List<TableModel>>> {
+
+
+
+
+
+
         return tablesRepository.getTables(filter)
     }
 

@@ -1,7 +1,6 @@
 package com.example.appcomandav20.data.source.remote.dto
 
 import com.example.appcomandav20.domain.model.TableModel
-import com.example.appcomandav20.domain.model.UsuarioDC
 import com.google.gson.annotations.SerializedName
 
 data class TableDTO (
@@ -12,7 +11,7 @@ data class TableDTO (
     val secuencia: Int?,
     val tipo: String,
     val idPedido: String?,
-    val NombreMozo: String?
+    val nombreMozo: String?
 )
 
 fun TableDTO.toTableModel(): TableModel {
@@ -24,5 +23,5 @@ fun TableDTO.toTableModel(): TableModel {
     secuencia = secuencia,
     tipo = tipo,
     idPedido = idPedido,
-    NombreMozo = NombreMozo)
+    NombreMozo = nombreMozo)
 }

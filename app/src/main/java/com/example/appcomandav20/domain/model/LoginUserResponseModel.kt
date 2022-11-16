@@ -1,5 +1,7 @@
 package com.example.appcomandav20.domain.model
 
+import com.example.appcomandav20.domain.database.entity.EntityLoginExito
+
 data class LoginUserResponseModel(
     val cdgmoneda: String,
     val cdgpago: String,
@@ -25,3 +27,30 @@ data class LoginUserResponseModel(
     val validez: String,
     val cdG_VENDEDOR: String
 )
+
+fun LoginUserResponseModel.toEntityLoginExito(): EntityLoginExito {
+    return EntityLoginExito(
+        cdgmoneda= cdgmoneda,
+        cdgpago= cdgpago,
+        codigO_EMPRESA= codigO_EMPRESA,
+        descuento= descuento,
+        estadopedido= estadopedido,
+        facturA_ADELANTADA= facturA_ADELANTADA,
+        iD_CLIENTE= iD_CLIENTE,
+        iD_COTIZACION= iD_COTIZACION,
+        jwtToken= jwtToken,
+        nombreMozo= nombreMozo,
+        nombreUsuario= nombreUsuario,
+        poR_IGV= poR_IGV,
+        puntO_VENTA= puntO_VENTA,
+        redondeo= redondeo,
+        refreshToken= refreshToken,
+        seriepedido= seriepedido,
+        sucursal= sucursal,
+        tipocambio= tipocambio,
+        usuario= usuario,
+        usuarioautoriza= usuarioautoriza,
+        usuariocreacion= usuariocreacion,
+        validez= validez,
+        cdG_VENDEDOR = cdG_VENDEDOR)
+}

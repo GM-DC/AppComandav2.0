@@ -58,8 +58,6 @@ class ListUsuarioFrag : Fragment() {
 
     private fun onItemSelected(dataClassUsuario: UsuarioDC) {
         val nombreMozo = dataClassUsuario.nombreUsuario
-        println("********* nombreMozo *********")
-        println(nombreMozo)
         val action = ListUsuarioFragDirections.nextAction().setNameMozo(nombreMozo)
         findNavController().navigate(action)
     }

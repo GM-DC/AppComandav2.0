@@ -4,17 +4,21 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appcomandav20.R
+import com.example.appcomandav20.databinding.ItemOrderBinding
 import com.example.appcomandav20.domain.model.ListOrdersModel
-import com.google.android.material.snackbar.Snackbar
 
 
-class OrderAdapter(private val data: MutableList<ListOrdersModel>, private val onClickListener: (ListOrdersModel) -> Unit): RecyclerView.Adapter<OrderAdapter.holderPedido>() {
-
-    var selectedPosition = -1
+class OrderAdapter(
+    private val data: MutableList<ListOrdersModel>,
+    private val itemClickIncrease: (Int) -> Unit,
+    private val itemClickDiminish: (Int) -> Unit,
+    private val itemClickObservation: (Int) -> Unit
+): RecyclerView.Adapter<OrderAdapter.holderPedido>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): holderPedido {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -22,80 +26,54 @@ class OrderAdapter(private val data: MutableList<ListOrdersModel>, private val o
     }
 
     override fun onBindViewHolder(holder: holderPedido, position: Int) {
-        holder.render(data[position],onClickListener)
-
-        holder.itemView.setBackgroundResource(R.drawable.item_background) //negro
-
-        if (selectedPosition == position) {
-            holder.itemView.setBackgroundResource(R.drawable.item_select_background) //banco
-            selectedPosition = -1
-        }else {
-            holder.itemView.setBackgroundResource(R.drawable.item_background) //negro
-        }
-
-        holder.itemView.setOnClickListener {
-            onClickListener(data[position])
-            selectedPosition = position
-            notifyDataSetChanged()
-        }
-
+        holder.render(data[position],position)
     }
 
     override fun getItemCount(): Int {
         return data.size
-
     }
 
-    class holderPedido(private val view: View): RecyclerView.ViewHolder(view){
-        fun render (data: ListOrdersModel, onClickListener: (ListOrdersModel) -> Unit) {
-
-            //******* DECLARANDO COMPONENTES *****
-            val tv_nombrePlato = view.findViewById<TextView>(R.id.tv_nombrePlato)
-            val tv_cantidad = view.findViewById<TextView>(R.id.tv_cantidad)
-            val tv_precio = view.findViewById<TextView>(R.id.tv_precio)
-            val tv_precioTotal = view.findViewById<TextView>(R.id.tv_precioTotal)
-
-            val tv_nota = view.findViewById<TextView>(R.id.tv_nota)
-
-            val precio = view.findViewById<TextView>(R.id.precio)
-            val total = view.findViewById<TextView>(R.id.total)
-
-
-            if(data.estadoPedido=="PENDIENTE"){
-                tv_nombrePlato.setTextColor(Color.parseColor("#11468F"))
-                tv_precio.setTextColor(Color.parseColor("#11468F"))
-                tv_precioTotal.setTextColor(Color.parseColor("#11468F"))
-                tv_cantidad.setTextColor(Color.parseColor("#11468F"))
-                precio.setTextColor(Color.parseColor("#11468F"))
-                total.setTextColor(Color.parseColor("#11468F"))
-                tv_nota.setTextColor(Color.parseColor("#11468F"))
-            }else{
-                tv_nombrePlato.setTextColor(Color.parseColor("#DA1212"))
-                tv_precio.setTextColor(Color.parseColor("#DA1212"))
-                tv_precioTotal.setTextColor(Color.parseColor("#DA1212"))
-                tv_cantidad.setTextColor(Color.parseColor("#DA1212"))
-                precio.setTextColor(Color.parseColor("#DA1212"))
-                total.setTextColor(Color.parseColor("#DA1212"))
-                tv_nota.setTextColor(Color.parseColor("#DA1212"))
-            }
-
-            if (data.observacion==""){
-                tv_nota.text = ""
-            }else{
-                tv_nota.text = "N"
-            }
-
+    inner class holderPedido(private val view: View): RecyclerView.ViewHolder(view){
+        val binding = ItemOrderBinding.bind(view)
+        fun render (data: ListOrdersModel, position: Int) {
 
             //************ ASIGNANDO COMPONENTES ********
-            tv_cantidad.text = "${data.cantidad}"
-
-            tv_nombrePlato.text = data.namePlato
-            tv_precio.text = "${data.precio}"
+            binding.tvCantidad.text = data.cantidad.toString()
+            binding.tvNombrePlato.text = data.namePlato
+            binding.tvPrecio.text = "${data.precio}"
             data.precioTotal = data.precio*data.cantidad
-            tv_precioTotal.text = "${data.precioTotal}"
+            binding.tvPrecioTotal.text = "${data.precioTotal}"
+            if(data.estadoPedido=="PENDIENTE"){
+                binding.tvNombrePlato.setTextColor(Color.parseColor("#11468F"))
+                binding.tvPrecio.setTextColor(Color.parseColor("#11468F"))
+                binding.tvPrecioTotal.setTextColor(Color.parseColor("#11468F"))
+                binding.tvCantidad.setTextColor(Color.parseColor("#11468F"))
+                binding.precio.setTextColor(Color.parseColor("#11468F"))
+                binding.total.setTextColor(Color.parseColor("#11468F"))
+                binding.tvNota.setTextColor(Color.parseColor("#11468F"))
+            }else{
+                binding.ivBtnDisminuir.isVisible = false
+                binding.ivBtnAumentar.isVisible = false
+                binding.ivBtnObservation.isVisible = false
+                binding.tvNombrePlato.setTextColor(Color.parseColor("#DA1212"))
+                binding.tvPrecio.setTextColor(Color.parseColor("#DA1212"))
+                binding.tvPrecioTotal.setTextColor(Color.parseColor("#DA1212"))
+                binding.tvCantidad.setTextColor(Color.parseColor("#DA1212"))
+                binding.precio.setTextColor(Color.parseColor("#DA1212"))
+                binding.total.setTextColor(Color.parseColor("#DA1212"))
+                binding.tvNota.setTextColor(Color.parseColor("#DA1212"))
+            }
+            if (data.observacion==""){
+                binding.tvNota.text = ""
+            }else{
+                binding.tvNota.text = "N"
+            }
+            var lastValue = ""
 
+            binding.ivBtnAumentar.setOnClickListener { itemClickIncrease(position) }
+            binding.ivBtnDisminuir.setOnClickListener { itemClickDiminish(position) }
+            binding.ivBtnObservation.setOnClickListener { itemClickObservation(position) }
         }
-
 
     }
 
@@ -105,10 +83,7 @@ class OrderAdapter(private val data: MutableList<ListOrdersModel>, private val o
         notifyDataSetChanged()
     }
 
-    fun setItem(item: ListOrdersModel) {
-        data.add(item)
-        notifyDataSetChanged()
-    }
+
 
 
 

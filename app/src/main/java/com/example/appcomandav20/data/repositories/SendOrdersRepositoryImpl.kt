@@ -2,6 +2,8 @@ package com.example.appcomandav20.data.repositories
 
 import com.example.appcomandav20.data.NetworkResult
 import com.example.appcomandav20.data.source.remote.SendOrdersApi
+import com.example.appcomandav20.data.source.remote.dto.SendOrdersDTO
+import com.example.appcomandav20.data.source.remote.dto.toSendOrdersModel
 import com.example.appcomandav20.data.source.remote.response.OrderResponseDTO
 import com.example.appcomandav20.data.source.remote.response.toOrderResponseModel
 import com.example.appcomandav20.domain.model.OrderResponseModel
@@ -16,9 +18,10 @@ import javax.inject.Inject
 class SendOrdersRepositoryImpl @Inject constructor(
     private val api: SendOrdersApi
 ): SendOrdersRepository {
-    override suspend fun postSendOrders(orders: SendOrdersModel): NetworkResult<OrderResponseModel> {
-        val response = try {
-                api.postSendOrders(orders.toSendOrdersDTO()).toOrderResponseModel()
+    override suspend fun postSendOrders(orders: SendOrdersModel): NetworkResult<SendOrdersModel> {
+        try {
+            val response = api.postSendOrders(orders.toSendOrdersDTO())
+            return NetworkResult.Success(data = response.toSendOrdersModel())
         }catch (e: HttpException) {
             return NetworkResult.Error(
                 message = "Huy! Algo salió mal // Code: ${e.code()}",
@@ -35,8 +38,5 @@ class SendOrdersRepositoryImpl @Inject constructor(
                 data = null
             )
         }
-        return NetworkResult.Success(data = response)
     }
-
-
 }

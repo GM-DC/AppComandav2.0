@@ -1,5 +1,11 @@
 package com.example.appcomandav20.data.source.remote.dto
 
+import com.example.appcomandav20.data.source.remote.response.OrderResponseDTO
+import com.example.appcomandav20.domain.model.DetalleResponseModel
+import com.example.appcomandav20.domain.model.OrderResponseModel
+import com.example.apppedido.domain.Model.DetalleModel
+import com.example.apppedido.domain.Model.SendOrdersModel
+
 data class SendOrdersDTO (
     val iD_PEDIDO: Int,
     val numerO_PEDIDO: String,
@@ -105,3 +111,114 @@ data class DetalleDTO(
     val importE_MARGEN: Int,
     val costO_ADIC: Int
 )
+
+fun SendOrdersDTO.toSendOrdersModel(): SendOrdersModel {
+
+    val dato = detalle.map { entries ->
+        DetalleModel(
+            iD_PEDIDO = entries.iD_PEDIDO,
+            iD_PRODUCTO = entries.iD_PRODUCTO,
+            cantidad= entries.cantidad,
+            nombre= entries.nombre,
+            precio= entries.precio,
+            descuento= entries.descuento,
+            igv= entries.igv,
+            importe= entries.importe,
+            canT_DESPACHADA= entries.canT_DESPACHADA,
+            canT_FACTURADA= entries.canT_FACTURADA,
+            observacion= entries.observacion,
+            secuencia= entries.secuencia,
+            preciO_ORIGINAL= entries.preciO_ORIGINAL,
+            tipo= entries.tipo,
+            importE_DSCTO= entries.importE_DSCTO,
+            afectO_IGV= entries.afectO_IGV,
+            comision= entries.comision,
+            iD_PRESUPUESTO= entries.iD_PRESUPUESTO,
+            cdG_SERV= entries.cdG_SERV,
+            flaG_C= entries.flaG_C,
+            flaG_P= entries.flaG_P,
+            flaG_COLOR= entries.flaG_COLOR,
+            noM_UNIDAD= entries.noM_UNIDAD,
+            comanda= entries.comanda,
+            mozo= entries.mozo,
+            unidad= entries.unidad,
+            codigO_BARRA= entries.codigO_BARRA,
+            poR_PERCEPCION= entries.poR_PERCEPCION,
+            percepcion= entries.percepcion,
+            valoR_VEN= entries.valoR_VEN,
+            uniD_VEN= entries.uniD_VEN,
+            fechA_VEN= entries.fechA_VEN,
+            factoR_CONVERSION= entries.factoR_CONVERSION,
+            cdG_KIT= entries.cdG_KIT,
+            swT_PIGV= entries.swT_PIGV,
+            swT_PROM= entries.swT_PROM,
+            canT_KIT= entries.canT_KIT,
+            swT_DCOM= entries.swT_DCOM,
+            swT_SABOR= entries.swT_SABOR,
+            swT_FREE= entries.swT_FREE,
+            noM_IMP= entries.noM_IMP,
+            seC_PROD= entries.seC_PROD,
+            poR_DETRACCION= entries.poR_DETRACCION,
+            detraccion= entries.detraccion,
+            usuariO_ANULA= entries.usuariO_ANULA,
+            fechA_ANULA= entries.fechA_ANULA,
+            margen= entries.margen,
+            importE_MARGEN= entries.importE_MARGEN,
+            costO_ADIC= entries.costO_ADIC
+        )
+    }
+
+    return  SendOrdersModel(
+        iD_PEDIDO = iD_PEDIDO,
+        numerO_PEDIDO = numerO_PEDIDO,
+        noM_MON = noM_MON,
+        smB_MON = smB_MON,
+        conD_PAGO = conD_PAGO,
+        persona = persona,
+        ruc = ruc,
+        freC_DIAS = freC_DIAS,
+        codigO_VENDEDOR = codigO_VENDEDOR,
+        codigO_CPAGO = codigO_CPAGO,
+        codigO_MONEDA = codigO_MONEDA,
+        fechA_PEDIDO = fechA_PEDIDO,
+        numerO_OCLIENTE = numerO_OCLIENTE,
+        importE_STOT = importE_STOT,
+        importE_IGV = importE_IGV,
+        importE_DESCUENTO = importE_DESCUENTO,
+        importE_TOTAL = importE_TOTAL,
+        porcentajE_DESCUENTO = porcentajE_DESCUENTO,
+        porcentajE_IGV = porcentajE_IGV,
+        observacion = observacion,
+        serie = serie,
+        estado = estado,
+        iD_CLIENTE = iD_CLIENTE,
+        importE_ISC = importE_ISC,
+        usuariO_CREACION = usuariO_CREACION,
+        usuariO_AUTORIZA = usuariO_AUTORIZA,
+        fechA_CREACION = fechA_CREACION,
+        fechA_MODIFICACION = fechA_MODIFICACION,
+        codigO_EMPRESA = codigO_EMPRESA,
+        codigO_SUCURSAL = codigO_SUCURSAL,
+        valoR_VENTA = valoR_VENTA,
+        iD_CLIENTE_FACTURA = iD_CLIENTE_FACTURA,
+        codigO_VENDEDOR_ASIGNADO = codigO_VENDEDOR_ASIGNADO,
+        fechA_PROGRAMADA = fechA_PROGRAMADA,
+        facturA_ADELANTADA = facturA_ADELANTADA,
+        contacto = contacto,
+        emaiL_CONTACTO = emaiL_CONTACTO,
+        lugaR_ENTREGA = lugaR_ENTREGA,
+        iD_COTIZACION = iD_COTIZACION,
+        comision = comision,
+        puntO_VENTA = puntO_VENTA,
+        redondeo = redondeo,
+        validez = validez,
+        motivo = motivo,
+        correlativo = correlativo,
+        centrO_COSTO = centrO_COSTO,
+        tipO_CAMBIO = tipO_CAMBIO,
+        sucursal = sucursal,
+        mesa = mesa,
+        piso = piso,
+        detalle = dato
+    )
+}

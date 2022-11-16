@@ -16,7 +16,8 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:orientation="vertical"
-            android:background="@drawable/effect_clic">
+            android:background="@drawable/effect_clic"
+            >
 
             <TextView
                 android:id="@+id/tx_plato"

@@ -1,5 +1,6 @@
 package com.example.appcomandav20.data.source.remote.response
 
+import com.example.appcomandav20.domain.database.entity.EntityLoginExito
 import com.example.appcomandav20.domain.model.LoginUserResponseModel
 
 data class LoginUserResponse(
@@ -57,3 +58,4 @@ fun LoginUserResponse.toLoginUserResponseModel(): LoginUserResponseModel {
         cdG_VENDEDOR = cdG_VENDEDOR,
     )
 }
+

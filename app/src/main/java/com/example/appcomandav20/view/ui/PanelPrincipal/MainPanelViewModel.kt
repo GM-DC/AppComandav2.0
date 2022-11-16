@@ -1,19 +1,22 @@
 package com.example.appcomandav20.view.ui.PanelPrincipal
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.appcomandav20.data.NetworkResult
 import com.example.appcomandav20.data.source.remote.response.toLoginUserResponseModel
+import com.example.appcomandav20.data.source.remote.response.toOrderResponseModel
+import com.example.appcomandav20.domain.database.entity.EntityLoginExito
 import com.example.appcomandav20.domain.model.*
 import com.example.appcomandav20.domain.use_case.*
+import com.example.appcomandav20.util.PrintOrder
 import com.example.apppedido.domain.Model.SendOrdersModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.single
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
 
 @HiltViewModel
 class MainPanelViewModel @Inject constructor(
@@ -22,40 +25,63 @@ class MainPanelViewModel @Inject constructor(
     private val getCategoryUseCase : GetCategoryUseCase,
     private val getDishesUseCase : GetDishesUseCase,
     private val postSendOrdersUseCase : PostSendOrdersUseCase,
-    private val getOrdersFulfilledUseCase : GetOrdersFulfilledUseCase
-
+    private val getOrdersFulfilledUseCase : GetOrdersFulfilledUseCase,
+    private val getLoginUserResponseUseCase: GetLoginUserResponseUseCase,
+    private val putUpdateStateTableUseCase : PutUpdateStateTableUseCase,
+    private val getOrderUseCase : GetOrderUseCase,
+    private val putUpdateColorOrderUseCase : PutUpdateColorOrderUseCase,
+    //private val getPreCount: GetPreCountUseCase
 ) : ViewModel() {
 
     private val _isLoading = MutableLiveData<Boolean>()
     var isLoading: LiveData<Boolean> = _isLoading
 
-    private val _message : MutableLiveData<String> = MutableLiveData()
+    private val _message: MutableLiveData<String> = MutableLiveData()
     var message: LiveData<String> = _message
 
     private var _listZones: MutableLiveData<MutableList<ZoneModel>> = MutableLiveData()
     var listZones: LiveData<MutableList<ZoneModel>> = _listZones
 
-    private val _listTable : MutableLiveData<MutableList<TableModel>> = MutableLiveData()
+    private val _listTable: MutableLiveData<MutableList<TableModel>> = MutableLiveData()
     var listTable: LiveData<MutableList<TableModel>> = _listTable
 
-    private val _listCategories : MutableLiveData<MutableList<CategoryModel>> = MutableLiveData()
+    private val _listCategories: MutableLiveData<MutableList<CategoryModel>> = MutableLiveData()
     var listCategories: LiveData<MutableList<CategoryModel>> = _listCategories
 
-    private val _listDish : MutableLiveData<MutableList<DishModel>> = MutableLiveData()
+    private val _listDish: MutableLiveData<MutableList<DishModel>> = MutableLiveData()
     var listDish: LiveData<MutableList<DishModel>> = _listDish
 
-    private val _listOrders : MutableLiveData<MutableList<ListOrdersModel>> = MutableLiveData()
+    private val _listOrders: MutableLiveData<MutableList<ListOrdersModel>> = MutableLiveData()
     var listOrders: LiveData<MutableList<ListOrdersModel>> = _listOrders
 
-    private val _responseOrder : MutableLiveData<OrderResponseModel> = MutableLiveData()
-    var responseOrder: LiveData<OrderResponseModel> = _responseOrder
+    private val _responseOrder: MutableLiveData<SendOrdersModel> = MutableLiveData()
+    var responseOrder: LiveData<SendOrdersModel> = _responseOrder
+
+    private val _LoginUserResponse: MutableLiveData<EntityLoginExito> = MutableLiveData()
+    var LoginUserResponse: LiveData<EntityLoginExito> = _LoginUserResponse
+
+    private val _UpdateStateTable: MutableLiveData<Void> = MutableLiveData()
+    var UpdateStateTable: LiveData<Void> = _UpdateStateTable
+
+    private val _listComanda: MutableLiveData<List<OrderModel>> = MutableLiveData()
+    var ListComanda: LiveData<List<OrderModel>> = _listComanda
+
+
+    lateinit var job:Job
 
     init {
-        getUsuarioData()
+        getZoneData()
         getCategoryData()
+        getLoginUserResponse()
     }
 
-    private fun getUsuarioData() {
+    private fun getLoginUserResponse() {
+        getLoginUserResponseUseCase.invoke().onEach {
+            _LoginUserResponse.value = it.copy()
+        }.launchIn(viewModelScope)
+    }
+
+    private fun getZoneData() {
         viewModelScope.launch {
             getZonesUseCase().onEach { result ->
                 when (result) {
@@ -75,7 +101,7 @@ class MainPanelViewModel @Inject constructor(
         }
     }
     fun getTableData(idZone: String) {
-        viewModelScope.launch {
+        job = viewModelScope.launch {
             getTableUseCase("piso eq '$idZone' and tipo eq 'A'").onEach { result ->
                 when (result) {
                     is NetworkResult.Success -> {
@@ -92,6 +118,9 @@ class MainPanelViewModel @Inject constructor(
                 }
             }.launchIn(this)
         }
+    }
+    fun cancelarCorrutine(){
+        job.cancel()
     }
     private fun getCategoryData() {
         viewModelScope.launch {
@@ -114,7 +143,7 @@ class MainPanelViewModel @Inject constructor(
     }
     fun getDishData(nameZona: String) {
         viewModelScope.launch {
-            getDishesUseCase(nombrecategoria = nameZona,moneda ="0001").onEach { result ->
+            getDishesUseCase(nombrecategoria = nameZona, moneda = "0001").onEach { result ->
                 when (result) {
                     is NetworkResult.Success -> {
                         _listDish.value = result.data!!.toMutableList()
@@ -131,7 +160,7 @@ class MainPanelViewModel @Inject constructor(
             }.launchIn(this)
         }
     }
-    fun postSendOrder(orderSend : SendOrdersModel){
+    fun postSendOrder(orderSend: SendOrdersModel) {
         viewModelScope.launch {
             postSendOrdersUseCase(orderSend).also { result ->
                 when (result) {
@@ -150,7 +179,6 @@ class MainPanelViewModel @Inject constructor(
             }
         }
     }
-
     fun getOrderFulfilled(ipPedido: String) {
         viewModelScope.launch {
             getOrdersFulfilledUseCase(ipPedido).onEach { result ->
@@ -160,15 +188,73 @@ class MainPanelViewModel @Inject constructor(
                         _isLoading.value = false
                     }
                     is NetworkResult.Error -> {
-                        _message.value = result.message ?: "Error Desconocido"
+                        _listOrders.value = emptyList<ListOrdersModel>().toMutableList()
                         _isLoading.value = false
                     }
                     is NetworkResult.Loading -> {
+                        _listOrders.value = emptyList<ListOrdersModel>().toMutableList()
                         _isLoading.value = true
                     }
                 }
             }.launchIn(this)
         }
     }
+    fun putUpdateStateTable(idZona: String,idMesa: Int,estadoMesa: String,nameMozo: String) {
+        viewModelScope.launch {
+            putUpdateStateTableUseCase(idZona,idMesa,estadoMesa,nameMozo).also { result ->
+                when (result) {
+                    is NetworkResult.Success -> {
+                        _UpdateStateTable.value = result.data!!
+                        _isLoading.value = false
+                    }
+                    is NetworkResult.Error -> {
+                        _isLoading.value = false
+                    }
+                    is NetworkResult.Loading -> {
+                        _isLoading.value = true
+                    }
+                }
+            }
+        }
+    }
+    fun getOrder(ipPedido: String) {
+        viewModelScope.launch {
+            getOrderUseCase(ipPedido).onEach { result ->
+                when (result) {
+                    is NetworkResult.Success -> {
+                        _listComanda.value = result.data!!
+                        _isLoading.value = false
+                    }
+                    is NetworkResult.Error -> {
+                        _listComanda.value = emptyList<OrderModel>().toMutableList()
+                        _isLoading.value = false
+                    }
+                    is NetworkResult.Loading -> {
+                        _listComanda.value = emptyList<OrderModel>().toMutableList()
+                        _isLoading.value = true
+                    }
+                }
+            }.launchIn(this)
+        }
+    }
+    fun putUpdateColorOrder(comanda: String,idpedido: Int) {
+        viewModelScope.launch {
+            putUpdateColorOrderUseCase(comanda,idpedido).also { result ->
+                when (result) {
+                    is NetworkResult.Success -> {
+                        _isLoading.value = false
+                    }
+                    is NetworkResult.Error -> {
+                        _isLoading.value = false
+                    }
+                    is NetworkResult.Loading -> {
+                        _isLoading.value = true
+                    }
+                }
+            }
+        }
+    }
+
+
 
 }

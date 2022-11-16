@@ -1,5 +1,7 @@
 package com.example.appcomandav20.util
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -25,8 +27,12 @@ class utils {
         return IGV
     }
 
-    fun getFecha(): String {
+    fun getFechaFormateado(): String {
         return SimpleDateFormat("dd/MM/yyyy").format(LocalDateTime.now())
+    }
+
+    fun getFecha(): String {
+        return "${LocalDateTime.now()}"
     }
 
     fun fechaActual(): LocalDateTime {

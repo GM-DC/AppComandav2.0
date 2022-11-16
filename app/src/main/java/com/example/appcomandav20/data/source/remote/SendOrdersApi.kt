@@ -8,6 +8,6 @@ import retrofit2.http.POST
 interface SendOrdersApi {
 
     @POST("api/Pedido/CreateOrder")
-    fun postSendOrders(@Body ordenPedido: SendOrdersDTO) : OrderResponseDTO
+    suspend fun postSendOrders(@Body ordenPedido: SendOrdersDTO) : SendOrdersDTO
 
 }

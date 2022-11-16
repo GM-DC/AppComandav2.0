@@ -112,7 +112,7 @@ data class DetalleResponseDTO(
 
 fun OrderResponseDTO.toOrderResponseModel(): OrderResponseModel {
 
-    val dato = detalle.mapIndexed { _, entries ->
+    val dato = detalle.map { entries ->
         DetalleResponseModel(
             iD_PEDIDO = entries.iD_PEDIDO,
             iD_PRODUCTO = entries.iD_PRODUCTO,

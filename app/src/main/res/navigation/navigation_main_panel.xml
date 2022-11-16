@@ -9,5 +9,38 @@
         android:id="@+id/mainPanelFrag"
         android:name="com.example.appcomandav20.view.ui.PanelPrincipal.MainPanelFrag"
         android:label="frag_main_panel"
-        tools:layout="@layout/frag_main_panel" />
+        tools:layout="@layout/frag_main_panel" >
+        <action
+            android:id="@+id/next_action_order"
+            app:destination="@id/orderPanelFrag" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderPanelFrag"
+        android:name="com.example.appcomandav20.view.ui.PanelPrincipal.OrderPanelFrag"
+        android:label="frag_order_panel"
+        tools:layout="@layout/frag_order_panel" >
+        <action
+            android:id="@+id/next_action_main"
+            app:destination="@id/mainPanelFrag"
+            app:popUpTo="@id/mainPanelFrag" />
+        <argument
+            android:name="Mesa"
+            android:defaultValue='Sin Mesa'
+            app:argType="string" />
+        <argument
+            android:name="Zona"
+            app:argType="string"
+            android:defaultValue="Sin Zona" />
+        <argument
+            android:name="nameWaiter"
+            app:argType="string"
+            android:defaultValue="Sin Nombre" />
+        <argument
+            android:name="idZone"
+            app:argType="string"
+            android:defaultValue="Sin Zone" />
+        <argument android:name="idOrder"
+            app:argType="string"
+            android:defaultValue="Sin Pedido" />
+    </fragment>
 </navigation>

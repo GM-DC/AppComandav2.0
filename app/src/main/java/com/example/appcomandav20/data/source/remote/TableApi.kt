@@ -6,6 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface TableApi {
+
     @GET("api/Mesas")
     suspend fun getTable(@Query("filter") filter:String) : List<TableDTO>
 }

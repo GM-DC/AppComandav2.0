@@ -9,6 +9,7 @@ import com.example.appcomandav20.data.source.remote.dto.toUsuarioDC
 import com.example.appcomandav20.domain.model.TableModel
 import com.example.appcomandav20.domain.model.UsuarioDC
 import com.example.appcomandav20.domain.repositories.TablesRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
@@ -22,8 +23,17 @@ class TableRespositoryImpl @Inject constructor(
         emit(NetworkResult.Loading())
         try {
             val listTable: MutableList<TableModel> = mutableListOf()
-            api.getTable(filter).forEach { listTable.add(it.toTableModel())  }
-            emit(NetworkResult.Success( listTable ))
+            var dato = filter
+            do{
+                listTable.clear()
+                api.getTable(filter).forEach { listTable.add(it.toTableModel())  }
+                emit(NetworkResult.Success( listTable ))
+                delay(1500)
+                if(dato.isEmpty()){
+                    dato = filter
+                }
+            }while(dato == filter)
+
         } catch (e: HttpException) {
             emit(NetworkResult.Error(
                 message = "Huy! Algo salió mal",

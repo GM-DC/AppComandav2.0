@@ -6,6 +6,7 @@ import dagger.hilt.android.components.ViewModelComponent
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
+
 @Module
 @InstallIn(ViewModelComponent::class)
 abstract class RepositoriesModule {
@@ -33,6 +34,15 @@ abstract class RepositoriesModule {
 
     @Binds
     abstract fun bindOrdersFullfilledRepository(impl: ListOrdersFulfilledRepositoryImpl): ListOrdersFulfilledRepository
+
+    @Binds
+    abstract fun bindUpdateStateTable(impl: UpdateStateTableImpl): UpdateStateTableRepository
+
+    @Binds
+    abstract fun bindOrder(impl: OrderRepositoryImpl): OrderRepository
+
+    @Binds
+    abstract fun bindUpdateColorOrder(impl: UpdateColorOrderImpl): UpdateColorOrderRespository
 
 
 }

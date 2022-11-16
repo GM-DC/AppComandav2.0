@@ -38,7 +38,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#FF0E83C9"
-                        android:textSize="15sp"
+                        android:textSize="14sp"
                         android:textStyle="bold"
                         tools:text="Pollo a la brasa"
                         android:layout_marginBottom="3dp"
@@ -65,14 +65,14 @@
                             android:layout_height="match_parent"
                             android:text="Precio Unit"
                             android:textColor="#11468F"
-                            android:textSize="15sp" />
+                            android:textSize="13sp" />
 
                         <TextView
                             android:id="@+id/tv_precio"
-                            android:layout_width="100dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:textColor="#11468F"
-                            android:textSize="15sp"
+                            android:textSize="13sp"
                             tools:text="S/.25.36" />
 
                     </LinearLayout>
@@ -91,14 +91,14 @@
                             android:layout_height="match_parent"
                             android:text="Precio Total"
                             android:textColor="#11468F"
-                            android:textSize="15sp" />
+                            android:textSize="13sp" />
 
                         <TextView
                             android:id="@+id/tv_precioTotal"
-                            android:layout_width="100dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:textColor="#11468F"
-                            android:textSize="15sp"
+                            android:textSize="13sp"
                             tools:text="S/.2'000.00" />
 
                     </LinearLayout>
@@ -113,16 +113,25 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <ImageView
+                            android:id="@+id/iv_btnObservation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_test" />
+
+                        <ImageView
+                            android:id="@+id/iv_btnAumentar"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@drawable/ic_add" />
 
                         <TextView
                             android:id="@+id/tv_cantidad"
-                            android:layout_width="25dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
+                            android:padding="0dp"
                             android:layout_marginHorizontal="5dp"
                             android:textColor="#11468F"
+                            android:digits="0123456789"
                             android:textAlignment="center"
                             android:layout_gravity="center"
                             android:gravity="center"
@@ -130,6 +139,7 @@
                             tools:text="100" />
 
                         <ImageView
+                            android:id="@+id/iv_btnDisminuir"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@drawable/ic_remove" />

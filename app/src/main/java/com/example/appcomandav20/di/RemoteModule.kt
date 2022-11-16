@@ -1,10 +1,21 @@
 package com.example.rickandmorty.di
 
+import android.app.Application
+import android.content.Context
+import androidx.room.Room
+import com.example.appcomandav20.data.repositories.LoginUserRepositoryImpl
 import com.example.appcomandav20.data.source.remote.*
+import com.example.appcomandav20.domain.database.dao.DaoLoginExito
+import com.example.appcomandav20.domain.database.db.ComandaDB
+import com.example.appcomandav20.domain.repositories.LoginUserRepository
 import com.example.appcomandav20.util.BASE_URL
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.internal.Contexts
+import dagger.hilt.android.qualifiers.ActivityContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -37,8 +48,22 @@ object RemoteModule {
         return retrofit
     }
 
-    @Provides
+    private const val COMANDA_DATABASE_NAME = "ComandaDB"
+
     @Singleton
+    @Provides
+    fun provideRoom(@ApplicationContext context: Context):ComandaDB {
+        return Room.databaseBuilder(context,ComandaDB::class.java,COMANDA_DATABASE_NAME).build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideLoginExitoRoom(db: ComandaDB): DaoLoginExito{
+        return db.daoLoginExito()
+    }
+
+    @Singleton
+    @Provides
     fun provideUsuarioApiClient(retrofit: Retrofit): UsuarioApi {
         return retrofit.create(UsuarioApi::class.java)
     }
@@ -84,5 +109,24 @@ object RemoteModule {
     fun provideOrdersFulfilledApiClient(retrofit: Retrofit): OrdersFulfilledApi {
         return retrofit.create(OrdersFulfilledApi::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideUpdateStateTable(retrofit: Retrofit): UpdateStateTableApi {
+        return retrofit.create(UpdateStateTableApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideOrder(retrofit: Retrofit): OrderApi {
+        return retrofit.create(OrderApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUpdateColorOrder(retrofit: Retrofit): UpdateColorOrderApi {
+        return retrofit.create(UpdateColorOrderApi::class.java)
+    }
+
 
 }

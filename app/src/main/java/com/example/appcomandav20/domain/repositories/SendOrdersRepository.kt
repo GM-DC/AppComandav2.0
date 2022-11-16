@@ -7,6 +7,6 @@ import com.example.apppedido.domain.Model.SendOrdersModel
 
 interface SendOrdersRepository {
 
-    suspend fun postSendOrders(orders: SendOrdersModel): NetworkResult<OrderResponseModel>
+    suspend fun postSendOrders(orders: SendOrdersModel): NetworkResult<SendOrdersModel>
 
 }

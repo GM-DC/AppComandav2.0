@@ -5,13 +5,12 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'androidx.navigation.safeargs'
 }
-
 android {
     compileSdk 32
 
     defaultConfig {
         applicationId "com.example.appcomandav20"
-        minSdkVersion 23
+        minSdkVersion 26
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -37,9 +36,7 @@ android {
     }
     buildscript {
         dependencies {
-
             classpath("com.google.dagger:hilt-android-gradle-plugin:2.42")
-
         }
     }
 }
@@ -74,12 +71,12 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
 
     //FRAMENT
-    implementation 'androidx.fragment:fragment:1.5.2'
+    implementation 'androidx.fragment:fragment:1.5.3'
 
     //ROOM
     implementation("androidx.room:room-ktx:2.4.3")
     implementation("androidx.room:room-runtime:2.4.3")
-    annotationProcessor("androidx.room:room-compiler:2.4.3")
+    kapt("androidx.room:room-compiler:2.4.3")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
 
     //SWIPE
@@ -103,4 +100,7 @@ dependencies {
     kapt "androidx.hilt:hilt-compiler:1.0.0"
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
     implementation 'androidx.hilt:hilt-navigation-fragment:1.0.0'
+
+    // ESC/POS Thermal Printer
+    implementation 'com.github.DantSu:ESCPOS-ThermalPrinter-Android:3.2.0'
 }
