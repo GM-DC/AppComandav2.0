@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.ui.PanelPrincipal.OrderPanelFrag">
+    tools:context=".features.orders.presentation.OrderPanelFrag">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -51,6 +51,15 @@
 
                 <TextView
                     android:id="@+id/tv_table"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_moso"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""

@@ -19,16 +19,21 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".view.ui.PanelPrincipal.MainPanel"
-            android:exported="false" />
-        <activity
-            android:name="com.example.appcomandav20.view.ui.Usuario.UsuarioActy"
-            android:exported="true">
+            android:name=".features.SplashScreenActy"
+            android:exported="true"
+            android:theme="@style/Theme.App.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".features.MainPanel"
+            android:exported="false" />
+        <activity
+            android:name="com.example.appcomandav20.features.UsuarioActy"
+            android:exported="false">
         </activity>
     </application>
 

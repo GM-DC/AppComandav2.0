@@ -1,20 +1,20 @@
-package com.example.rickandmorty.di
+package com.example.appcomandav20.di
 
-import android.app.Application
 import android.content.Context
 import androidx.room.Room
-import com.example.appcomandav20.data.repositories.LoginUserRepositoryImpl
-import com.example.appcomandav20.data.source.remote.*
-import com.example.appcomandav20.domain.database.dao.DaoLoginExito
-import com.example.appcomandav20.domain.database.db.ComandaDB
-import com.example.appcomandav20.domain.repositories.LoginUserRepository
-import com.example.appcomandav20.util.BASE_URL
-import dagger.Binds
+import com.example.appcomandav20.core.db.dao.DaoLoginExito
+import com.example.appcomandav20.core.db.ComandaDB
+import com.example.appcomandav20.features.orders.data.remote.*
+import com.example.appcomandav20.features.passcode.data.remote.UserLoginApi
+import com.example.appcomandav20.features.users.data.remote.UsuarioApi
+import com.example.appcomandav20.features.zones.data.remote.TableApi
+import com.example.appcomandav20.features.orders.data.remote.UpdateStateTableApi
+import com.example.appcomandav20.features.zones.data.remote.ZoneApi
+import com.example.appcomandav20.util.utils.Companion.PORT
+import com.example.appcomandav20.util.utils.Companion.URLBASE
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.internal.Contexts
-import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
@@ -41,7 +41,7 @@ object RemoteModule {
             .addInterceptor(interceptor)
             .build()
         retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl("http://$URLBASE:$PORT/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
@@ -52,13 +52,13 @@ object RemoteModule {
 
     @Singleton
     @Provides
-    fun provideRoom(@ApplicationContext context: Context):ComandaDB {
-        return Room.databaseBuilder(context,ComandaDB::class.java,COMANDA_DATABASE_NAME).build()
+    fun provideRoom(@ApplicationContext context: Context): ComandaDB {
+        return Room.databaseBuilder(context, ComandaDB::class.java, COMANDA_DATABASE_NAME).build()
     }
 
     @Singleton
     @Provides
-    fun provideLoginExitoRoom(db: ComandaDB): DaoLoginExito{
+    fun provideLoginExitoRoom(db: ComandaDB): DaoLoginExito {
         return db.daoLoginExito()
     }
 

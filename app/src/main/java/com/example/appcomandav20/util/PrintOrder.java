@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 
 import com.dantsu.escposprinter.EscPosPrinter;
 import com.dantsu.escposprinter.connection.tcp.TcpConnection;
-import com.example.appcomandav20.domain.model.OrderModel;
+import com.example.appcomandav20.features.orders.domain.model.OrderModel;
 
 public class PrintOrder {
 

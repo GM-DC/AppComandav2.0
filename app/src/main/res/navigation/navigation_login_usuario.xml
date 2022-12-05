@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_login_usuario"
-    app:startDestination="@id/listUsuarioFrag2">
+    app:startDestination="@id/configFrag">
     <fragment
         android:id="@+id/listUsuarioFrag2"
-        android:name="com.example.appcomandav20.view.ui.Usuario.ListUsuarioFrag"
+        android:name="com.example.appcomandav20.features.users.presentation.ListUsuarioFrag"
         android:label="frag_list_usuario"
         tools:layout="@layout/frag_list_usuario" >
         <action
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/passCodeUsuarioFrag"
-        android:name="com.example.appcomandav20.view.ui.Usuario.PassCodeUsuarioFrag"
+        android:name="com.example.appcomandav20.features.passcode.presentation.PassCodeUsuarioFrag"
         android:label="frag_passcode_usuario"
         tools:layout="@layout/frag_passcode_usuario" >
         <argument
@@ -30,12 +30,23 @@
         <action
             android:id="@+id/next_activity"
             app:destination="@id/mainPanel"
-            app:popUpTo="@id/listUsuarioFrag2"
-            app:popUpToInclusive="false" />
+            app:popUpTo="@id/passCodeUsuarioFrag"
+            app:popUpToInclusive="true" />
     </fragment>
     <activity
         android:id="@+id/mainPanel"
-        android:name="com.example.appcomandav20.view.ui.PanelPrincipal.MainPanel"
+        android:name="com.example.appcomandav20.features.MainPanel"
         android:label="acty_main_panel"
-        tools:layout="@layout/acty_main_panel" />
+        tools:layout="@layout/activity_main_panel" />
+    <fragment
+        android:id="@+id/configFrag"
+        android:name="com.example.appcomandav20.features.config.presentation.ConfigFrag"
+        android:label="frag_config"
+        tools:layout="@layout/frag_config" >
+        <action
+            android:id="@+id/next_listusers"
+            app:destination="@id/listUsuarioFrag2"
+            app:popUpTo="@id/configFrag"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

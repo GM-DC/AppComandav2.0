@@ -2,12 +2,18 @@ package com.example.appcomandav20.util
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.datastore.preferences.core.stringPreferencesKey
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
 class utils {
+
+    companion object{
+        var URLBASE = ""
+        var PORT = ""
+    }
 
     fun pricetostringformat(valuenumeric: Double): String {
         return String.format("%,.2f", valuenumeric)

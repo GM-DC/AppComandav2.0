@@ -1,21 +1,22 @@
 package com.example.appcomandav20.util;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 import com.dantsu.escposprinter.EscPosPrinter;
 import com.dantsu.escposprinter.connection.tcp.TcpConnection;
+import com.example.appcomandav20.features.orders.domain.model.PreCount;
 
 public class PrintPreCount {
-    public void printTcp(String ip, int port, com.example.appcomandav20.domain.model.PreCount item ) {
+    public void printTcp(String ip, int port, PreCount item ) {
         new Thread(new Runnable() {
-            @SuppressLint("NewApi")
             public void run() {
                 try {
                     EscPosPrinter printer = new EscPosPrinter(new TcpConnection(ip, port), 203, 65f, 42);
 
                     final StringBuilder builder = new StringBuilder();
                     item.getDetalle().forEach((val)->{
-                        builder.append("[L]<font size='tall'>"+val.getCantidad()+" "+val.getNombre() +"[R]"+val.getImporte()+"</font>\n");
+                        builder.append("[L]<font size='tall'>").append(val.getCantidad()).append(" ").append(val.getNombre()).append("[R]").append(val.getImporte()).append("</font>\n");
                     });
 
                     // imprimes

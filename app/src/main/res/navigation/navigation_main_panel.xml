@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainPanelFrag"
-        android:name="com.example.appcomandav20.view.ui.PanelPrincipal.MainPanelFrag"
+        android:name="com.example.appcomandav20.features.zones.presentation.MainPanelFrag"
         android:label="frag_main_panel"
         tools:layout="@layout/frag_main_panel" >
         <action
@@ -16,13 +16,14 @@
     </fragment>
     <fragment
         android:id="@+id/orderPanelFrag"
-        android:name="com.example.appcomandav20.view.ui.PanelPrincipal.OrderPanelFrag"
+        android:name="com.example.appcomandav20.features.orders.presentation.OrderPanelFrag"
         android:label="frag_order_panel"
         tools:layout="@layout/frag_order_panel" >
         <action
             android:id="@+id/next_action_main"
             app:destination="@id/mainPanelFrag"
-            app:popUpTo="@id/mainPanelFrag" />
+            app:popUpTo="@id/navigation_main_panel"
+            app:popUpToInclusive="true" />
         <argument
             android:name="Mesa"
             android:defaultValue='Sin Mesa'
