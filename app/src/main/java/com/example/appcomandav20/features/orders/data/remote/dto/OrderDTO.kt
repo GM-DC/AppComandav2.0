@@ -12,7 +12,17 @@ data class OrderDTO(
     val rutacomanda: String,
     val fechayhora: String,
     val detalle: List<OrderDetailDTO>
-)
+){
+    fun toOrderModel() = OrderModel(
+        numerO_PEDIDO= numerO_PEDIDO ,
+        destino= destino,
+        zona= zona,
+        mesa=mesa ,
+        mesero= mesero,
+        rutacomanda= rutacomanda,
+        fechayhora= fechayhora,
+        detalle= detalle.map { it.toOrderDetailModel() } )
+}
 
 data class OrderDetailDTO(
     val iD_PRODUCTO: Int,
@@ -23,31 +33,14 @@ data class OrderDetailDTO(
     val observacion: String,
     val noM_IMP: String?,
     val secuencia: Int
-)
-
-
-fun OrderDTO.toOrderModel(): OrderModel {
-
-    val detalle = detalle.map { entries ->
-        OrderDetailModel(
-        iD_PRODUCTO= entries.iD_PRODUCTO,
-        producto= entries.producto,
-        cantidad= entries.cantidad,
-        precio= entries.precio,
-        importe=entries.importe,
-        observacion=entries.observacion,
-        noM_IMP= entries.noM_IMP,
-        secuencia= entries.secuencia)
-    }
-
-    return OrderModel(
-    numerO_PEDIDO= numerO_PEDIDO ,
-    destino= destino,
-    zona= zona,
-    mesa=mesa ,
-    mesero= mesero,
-    rutacomanda= rutacomanda,
-    fechayhora= fechayhora,
-    detalle= detalle,)
-
+){
+    fun toOrderDetailModel() = OrderDetailModel(
+        iD_PRODUCTO= iD_PRODUCTO,
+        producto= producto,
+        cantidad= cantidad,
+        precio= precio,
+        importe= importe,
+        observacion= observacion,
+        noM_IMP=  noM_IMP,
+        secuencia= secuencia)
 }

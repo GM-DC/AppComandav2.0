@@ -54,5 +54,6 @@ abstract class RepositoriesModule {
     @Binds
     abstract fun bindUpdateColorOrder(impl: UpdateColorOrderImpl): UpdateColorOrderRespository
 
-
+    @Binds
+    abstract fun bindPrintPreCountRepository(impl: PrintPreCountRepositoryImpl): PrintPreCountRepository
 }

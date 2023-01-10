@@ -28,7 +28,7 @@ class utils {
 
     fun priceIGV(price: Double): Double {
         //val igv = prefs.getIGV().toDouble()
-        // price.minus(price.div(1 + (igv.div(100))))
+        //price.minus(price.div(1 + (igv.div(100))))
         val IGV = price*18/118
         return IGV
     }

@@ -1,9 +1,11 @@
 package com.example.appcomandav20.features.orders.domain.repositories
 
 import com.example.appcomandav20.core.NetworkResult
+import com.example.appcomandav20.features.orders.domain.model.PreCount
+import kotlinx.coroutines.flow.Flow
 
 interface PrintPreCountRepository {
 
-    suspend fun putUpdateStateTable(idZona:String,idMesa:Int,estadoMesa:String,nameMozo:String): NetworkResult<Void>
+    fun getOrder(idPedido:String): Flow<NetworkResult<PreCount>>
 
 }

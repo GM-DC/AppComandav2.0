@@ -24,7 +24,7 @@ class TableRespositoryImpl @Inject constructor(
                 listTable.clear()
                 api.getTable(filter).forEach { listTable.add(it.toTableModel())  }
                 emit(NetworkResult.Success( listTable ))
-                delay(4500)
+                delay(60000)
                 if(dato.isEmpty()){
                     dato = filter
                 }

@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.appcomandav20.R
 import com.example.appcomandav20.features.zones.domain.model.ZoneModel
 
-class ZoneAdapter (private val data: MutableList<ZoneModel>, private val onClickListener: (ZoneModel) -> Unit): RecyclerView.Adapter<ZoneAdapter.holderZona>() {
+class ZoneAdapter (
+    private val data: MutableList<ZoneModel>,
+    private val onClickListener: (ZoneModel) -> Unit): RecyclerView.Adapter<ZoneAdapter.holderZona>() {
 
     var selectedPosition = 0
 

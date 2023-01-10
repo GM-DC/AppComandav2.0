@@ -1,19 +1,21 @@
 package com.example.appcomandav20.features.orders.presentation
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.appcomandav20.core.NetworkResult
-import com.example.appcomandav20.core.db.entity.EntityLoginExito
 import com.example.appcomandav20.features.orders.domain.model.*
 import com.example.appcomandav20.features.orders.domain.usecase.*
-import com.example.appcomandav20.features.passcode.domain.usecase.GetLoginUserResponseUseCase
+import com.example.appcomandav20.features.orders.presentation.OrderPanelFrag.Companion.listOrders
 import com.example.appcomandav20.features.zones.domain.model.TableModel
-import com.example.appcomandav20.features.zones.domain.model.ZoneModel
 import com.example.appcomandav20.features.zones.domain.usecase.GetTableUseCase
-import com.example.appcomandav20.features.zones.domain.usecase.GetZonesUseCase
+import com.example.appcomandav20.util.PrintOrder
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -30,6 +32,7 @@ class OrderPanelViewModel @Inject constructor(
     private val getOrderUseCase : GetOrderUseCase,
     private val putUpdateColorOrderUseCase : PutUpdateColorOrderUseCase,
     private val getTableUseCase : GetTableUseCase,
+    private val getPreCountUseCase : GetPreCountUseCase,
 ) : ViewModel() {
 
     private val _isLoading = MutableLiveData<Boolean>()
@@ -45,7 +48,7 @@ class OrderPanelViewModel @Inject constructor(
     var listDish: LiveData<MutableList<DishModel>> = _listDish
 
     private val _listOrders: MutableLiveData<MutableList<ListOrdersModel>> = MutableLiveData()
-    var listOrders: LiveData<MutableList<ListOrdersModel>> = _listOrders
+    var listOrdersVM: LiveData<MutableList<ListOrdersModel>> = _listOrders
 
     private val _listTable: MutableLiveData<MutableList<TableModel>> = MutableLiveData()
     var listTable: LiveData<MutableList<TableModel>> = _listTable
@@ -56,8 +59,11 @@ class OrderPanelViewModel @Inject constructor(
     private val _UpdateStateTable: MutableLiveData<Void> = MutableLiveData()
     var UpdateStateTable: LiveData<Void> = _UpdateStateTable
 
-    private val _listComanda: MutableLiveData<List<OrderModel>> = MutableLiveData()
-    var ListComanda: LiveData<List<OrderModel>> = _listComanda
+    private val _listComanda: MutableLiveData<MutableList<OrderModel>> = MutableLiveData()
+    var ListComanda: LiveData<MutableList<OrderModel>> = _listComanda
+
+    private val _resulPreCount: MutableLiveData<PreCount> = MutableLiveData()
+    var resulPreCount: LiveData<PreCount> = _resulPreCount
 
 
     lateinit var job: Job
@@ -137,6 +143,7 @@ class OrderPanelViewModel @Inject constructor(
                 when (result) {
                     is NetworkResult.Success -> {
                         _responseOrder.value = result.data!!
+                        getOrder(result.data.iD_PEDIDO.toString(),result.data)
                         _isLoading.value = false
                     }
                     is NetworkResult.Error -> {
@@ -170,6 +177,24 @@ class OrderPanelViewModel @Inject constructor(
             }.launchIn(this)
         }
     }
+    fun getPrintPreCount(ipPedido: String) {
+        viewModelScope.launch {
+            getPreCountUseCase(ipPedido).onEach { result ->
+                when (result) {
+                    is NetworkResult.Success -> {
+                        _resulPreCount.value = result.data!!
+                        _isLoading.value = false
+                    }
+                    is NetworkResult.Error -> {
+                        _isLoading.value = false
+                    }
+                    is NetworkResult.Loading -> {
+                        _isLoading.value = true
+                    }
+                }
+            }.launchIn(this)
+        }
+    }
     fun putUpdateStateTable(idZona: String,idMesa: Int,estadoMesa: String,nameMozo: String) {
         viewModelScope.launch {
             putUpdateStateTableUseCase(idZona,idMesa,estadoMesa,nameMozo).also { result ->
@@ -188,26 +213,26 @@ class OrderPanelViewModel @Inject constructor(
             }
         }
     }
-    fun getOrder(ipPedido: String) {
+    fun getOrder(ipPedido: String, resultSendOrder :SendOrdersModel) {
         viewModelScope.launch {
             getOrderUseCase(ipPedido).onEach { result ->
                 when (result) {
                     is NetworkResult.Success -> {
-                        _listComanda.value = result.data!!
+                        printOrderComanda(result.data!!,resultSendOrder)
+                        _listComanda.value = result.data.toMutableList()
                         _isLoading.value = false
                     }
                     is NetworkResult.Error -> {
-                        _listComanda.value = emptyList<OrderModel>().toMutableList()
                         _isLoading.value = false
                     }
                     is NetworkResult.Loading -> {
-                        _listComanda.value = emptyList<OrderModel>().toMutableList()
                         _isLoading.value = true
                     }
                 }
             }.launchIn(this)
         }
     }
+
     fun putUpdateColorOrder(comanda: String,idpedido: Int) {
         viewModelScope.launch {
             putUpdateColorOrderUseCase(comanda,idpedido).also { result ->
@@ -226,4 +251,51 @@ class OrderPanelViewModel @Inject constructor(
         }
     }
 
+    fun printOrderComanda(resp :List<OrderModel>, resultSendOrder: SendOrdersModel){
+        CoroutineScope(Dispatchers.IO).launch {
+            val listaCodComanda: ArrayList<String> = ArrayList()
+            val idPedido = resultSendOrder.iD_PEDIDO.toString()
+
+            resultSendOrder.detalle.forEach {
+                listaCodComanda.add(it.comanda)
+            }
+
+            val listaDetalleComanda = ArrayList<OrderDetailModel>()
+            val listaComanda = ArrayList<OrderModel>()
+            val impComanda = PrintOrder()
+
+            resp.forEach { cabezera ->
+                cabezera.detalle.forEach { detalleComanda ->
+                    for (i in listOrders.indices){
+                        if(detalleComanda.producto == listOrders[i].namePlato && listOrders[i].estadoPedido == "PENDIENTE"){
+                            listaDetalleComanda.add(
+                                OrderDetailModel(
+                                    detalleComanda.iD_PRODUCTO,
+                                    detalleComanda.producto,
+                                    listOrders[i].cantidad,
+                                    detalleComanda.precio,
+                                    detalleComanda.precio*listOrders[i].cantidad,
+                                    listOrders[i].observacion,
+                                    detalleComanda.noM_IMP,
+                                    secuencia = i)
+                            )
+                        }
+                    }
+                }
+                listaComanda.add(OrderModel(cabezera.numerO_PEDIDO,cabezera.destino,cabezera.zona,cabezera.mesa,cabezera.mesero,cabezera.rutacomanda,cabezera.fechayhora,listaDetalleComanda))
+            }
+
+            var init = " "
+            listaCodComanda.forEach {
+                if (init != it){
+                    putUpdateColorOrder(it,idPedido.toInt())
+                    init = it
+                }
+            }
+
+            listaComanda.forEach {
+                impComanda.printTcp(it.rutacomanda,9100,it)
+            }
+        }
+    }
 }

@@ -21,8 +21,10 @@ import com.example.appcomandav20.util.utils
 import com.example.appcomandav20.features.orders.presentation.adapter.CategoryAdapter
 import com.example.appcomandav20.features.orders.presentation.adapter.DishAdapter
 import com.example.appcomandav20.features.orders.presentation.adapter.OrderAdapter
+import com.example.appcomandav20.features.orders.presentation.dialogue.ConfirmDialogue
 import com.example.appcomandav20.util.Constants.Companion.DATA_TABLE
 import com.example.appcomandav20.util.Constants.Companion.DATA_USER
+import com.example.appcomandav20.util.PrintPreCount
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,6 +38,7 @@ class OrderPanelFrag : Fragment() {
     lateinit var IDMESA :String
     lateinit var NAMEWAITER :String
     lateinit var USER : String
+    lateinit var IDPEDIDO : String
 
     private lateinit var categoryAdapter: CategoryAdapter
     private val listaCategories = mutableListOf<CategoryModel>()
@@ -44,7 +47,10 @@ class OrderPanelFrag : Fragment() {
     private val listDish = mutableListOf<DishModel>()
 
     private lateinit var orderAdapter: OrderAdapter
-    private val listOrders = mutableListOf<ListOrdersModel>()
+
+    companion object{
+        val listOrders = mutableListOf<ListOrdersModel>()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,6 +109,7 @@ class OrderPanelFrag : Fragment() {
     fun initDataTable(){
         val idZone = OrderPanelFragArgs.fromBundle(requireArguments()).idZone
         val idTable = OrderPanelFragArgs.fromBundle(requireArguments()).mesa
+        viewModel.getPrintPreCount(DATA_TABLE.idPedido.toString())
         viewModel.getOrderFulfilled(DATA_TABLE.idPedido.toString())
         viewModel.getTableByZoneTable(idZone,idTable)
     }
@@ -126,15 +133,17 @@ class OrderPanelFrag : Fragment() {
     //----- EVENTS CLICK
     private fun eventsHandlers() {
         with(binding){
-            btEnviarComanda.setOnClickListener{ sendOrders() }
+            btEnviarComanda.setOnClickListener{ dialogueConfirmOrders() }
             btnLimpiar.setOnClickListener { clearListOrders() }
             btnPrecuenta.setOnClickListener { printPreCount() }
         }
     }
 
     private fun printPreCount() {
-
+        val dato = viewModel.resulPreCount.value
+        PrintPreCount().printTcp("192.169.1.7", 9100, dato,activity)
     }
+
     private fun clearListOrders() {
         var size = listOrders.size
         var cont = 0
@@ -157,10 +166,20 @@ class OrderPanelFrag : Fragment() {
     }
 
     //----- SEND ORDERS
+    fun dialogueConfirmOrders(){
+        ConfirmDialogue(
+            onClick = { condition-> onClick(condition) }
+        ).show(parentFragmentManager,"dialogue")
+    }
+
+    private fun onClick(condition: Boolean) {
+        if (condition){sendOrders()}
+    }
+
     private fun sendOrders() {
         if (listOrders.count{it.estadoPedido=="PENDIENTE"}>0){
             viewModel.postSendOrder(listSendOrders())
-            printOrder()
+            //printOrder()
             viewModel.putUpdateStateTable(IDZONE,IDMESA.toInt(),"O",USER)
             viewModel.cancelarCorrutine()
             findNavController().navigate(R.id.next_action_main)
@@ -427,20 +446,27 @@ class OrderPanelFrag : Fragment() {
 
         return listOf(action, pos)
     }
+
+    /*
     private fun printOrder(){
         val listaCodComanda: ArrayList<String> = ArrayList()
         var idPedido = ""
         viewModel.responseOrder.observe(viewLifecycleOwner){ it ->
+            println("Estoy aqui???")
             idPedido = it.iD_PEDIDO.toString()
-            viewModel.getOrder(idPedido)
             it.detalle.forEach { detailModel ->
                 listaCodComanda.add(detailModel.comanda)
             }
         }
+
         viewModel.ListComanda.observe(viewLifecycleOwner){ r->
             val listaDetalleComanda = ArrayList<OrderDetailModel>()
             val listaComanda = ArrayList<OrderModel>()
             val impComanda = PrintOrder()
+
+            println("=================================================")
+            println("Resul ListComanda: $r")
+            println("=================================================")
 
             r.forEach { cabezera ->
                 cabezera.detalle.forEach { detalleComanda ->
@@ -455,12 +481,13 @@ class OrderPanelFrag : Fragment() {
                                 detalleComanda.precio*listOrders[i].cantidad,
                                 listOrders[i].observacion,
                                 detalleComanda.noM_IMP,
-                                secuencia = i,
-                            )
+                                secuencia = i)
                             )
                         }
                     }
                 }
+
+
                 listaComanda.add(OrderModel(cabezera.numerO_PEDIDO,cabezera.destino,cabezera.zona,cabezera.mesa,cabezera.mesero,cabezera.rutacomanda,cabezera.fechayhora,listaDetalleComanda))
             }
 
@@ -477,6 +504,8 @@ class OrderPanelFrag : Fragment() {
             }
         }
     }
+    */
+
     private fun cambiarColorComandado(comada:String,ippedido:Int) {
         viewModel.putUpdateColorOrder(comada,ippedido)
     }
@@ -515,7 +544,7 @@ class OrderPanelFrag : Fragment() {
         }
     }
     private fun getListOrders() {
-        viewModel.listOrders.observe(viewLifecycleOwner){ it ->
+        viewModel.listOrdersVM.observe(viewLifecycleOwner){ it ->
             orderAdapter.setItems(it)
         }
     }

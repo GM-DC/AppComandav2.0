@@ -7,7 +7,7 @@ data class PreCount(
     val zona: String,
     val mesa: String,
     val fechayhora: String,
-    val observaciones: String,
+    val observaciones: String?,
     val subtotal: String,
     val igv:String,
     val total: String,

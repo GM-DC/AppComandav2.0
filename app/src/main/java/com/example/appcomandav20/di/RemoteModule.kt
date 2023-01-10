@@ -128,5 +128,11 @@ object RemoteModule {
         return retrofit.create(UpdateColorOrderApi::class.java)
     }
 
+    @Provides
+    @Singleton
+    fun providePreCount(retrofit: Retrofit): PreCountApi {
+        return retrofit.create(PreCountApi::class.java)
+    }
+
 
 }

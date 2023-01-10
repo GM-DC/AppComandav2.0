@@ -1,14 +1,14 @@
 package com.example.appcomandav20.util;
 
-import android.annotation.SuppressLint;
-import android.util.Log;
+import android.content.Context;
+import android.widget.Toast;
 
-import com.dantsu.escposprinter.EscPosPrinter;
-import com.dantsu.escposprinter.connection.tcp.TcpConnection;
+import com.emh.thermalprinter.EscPosPrinter;
+import com.emh.thermalprinter.connection.tcp.TcpConnection;
 import com.example.appcomandav20.features.orders.domain.model.PreCount;
 
 public class PrintPreCount {
-    public void printTcp(String ip, int port, PreCount item ) {
+    public void printTcp(String ip, int port, PreCount item, Context context ) {
         new Thread(new Runnable() {
             public void run() {
                 try {
